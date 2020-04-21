@@ -1,5 +1,5 @@
 ---
-dist: xenial
+dist: bionic
 
 env:
   global:
@@ -21,7 +21,7 @@ addons:
 
 install:
   # Install ansible
-  - pip install ansible ansible-lint
+  - sudo pip3 install ansible ansible-lint
 
   # Check ansible version
   - ansible --version
