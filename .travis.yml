@@ -13,6 +13,7 @@ before_install:
 - sudo mkdir -p /etc/containers
 - sudo sh -c 'echo -e "[registries.search]\nregistries = [\"docker.io\"]" > /etc/containers/registries.conf'
 - podman --version
+- podman pull minio/minio
 
 # Install ansible
 addons:
