@@ -1,0 +1,24 @@
+---
+# handlers file for smlloyd.minio_podman
+
+- name: delete old container
+  shell: podman container exists '{{ minio_podman_container_name }}' && podman rm -f '{{ minio_podman_container_name }}'
+  register: delete_container
+  changed_when: delete_container.rc == 0
+  failed_when: delete_container.rc >= 2
+
+
+- name: create container
+  command: >-
+    podman run -d -p '{{ minio_podman_external_port }}':9000 --name '{{ minio_podman_container_name }}'
+    -e "MINIO_ACCESS_KEY={{ minio_podman_key }}"
+    -e "MINIO_SECRET_KEY={{ minio_podman_secret }}"
+    -v '{{ minio_podman_data_dir }}:/data:Z'
+    "{{ minio_podman_image_name }}" server /data
+
+
+- name: create systemd file
+  command: >-
+    podman generate systemd --name "{{ minio_podman_container_name }}" -t 5 --restart-policy always -f
+  args:
+    chdir: '{{ minio_podman_systemd_directory }}'

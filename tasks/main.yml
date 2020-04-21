@@ -1,0 +1,45 @@
+---
+# tasks file for smlloyd.minio_podman
+
+- name: Ensure required packages are installed
+  package:
+    name: "{{ minio_podman_packages }}"
+    state: present
+
+
+- name: Pull minio image
+  podman_image:
+    name: '{{ minio_podman_image_name }}'
+    tag: '{{ minio_podman_image_tag }}'
+    force: '{{ minio_podman_force_pull }}'
+  notify:
+    - delete old container
+
+
+- meta: flush_handlers
+
+
+- name: Ensure minio data directory exists
+  file:
+    path: '{{ minio_podman_data_dir }}'
+    state: directory
+
+
+- name: Ensure minio container exists
+  command: 'podman container exists {{ minio_podman_container_name }}'
+  register: container_exists
+  check_mode: no
+  changed_when: container_exists.rc == 1
+  failed_when: container_exists.rc >= 2
+  notify:
+    - create container
+    - create systemd file
+
+- meta: flush_handlers
+
+- name: enable minio service
+  systemd:
+    state: started
+    enabled: yes
+    daemon_reload: yes
+    name: '{{ minio_podman_service }}'
