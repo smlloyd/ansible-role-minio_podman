@@ -15,6 +15,7 @@ To use this role three variables should be set for the storage location and key/
     minio_podman_key: CHANGEME
     minio_podman_secret: CHANGEMECHANGEME
 
+Additional variables with their defaults can be found in `defaults/main.yml`.
 
 Dependencies
 ------------
@@ -35,4 +36,4 @@ Including an example of how to use your role (for instance, with variables passe
 License
 -------
 
-GPLv4
+GPLv3
