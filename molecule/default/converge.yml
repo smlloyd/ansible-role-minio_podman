@@ -1,8 +1,7 @@
 ---
 - name: Converge
   hosts: all
-  become: true
-
+  become: True
   tasks:
     - name: "Include smlloyd.minio_podman"
       include_role:

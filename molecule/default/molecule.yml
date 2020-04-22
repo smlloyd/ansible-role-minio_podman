@@ -4,7 +4,7 @@ dependency:
 driver:
   name: vagrant
 platforms:
-  - name: centos8
+  - name: minio-centos8
     box: centos/8
 provisioner:
   name: ansible
