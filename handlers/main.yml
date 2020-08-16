@@ -13,6 +13,7 @@
     podman run -d -p '{{ minio_podman_external_port }}':9000 --name '{{ minio_podman_container_name }}'
     -e "MINIO_ACCESS_KEY={{ minio_podman_key }}"
     -e "MINIO_SECRET_KEY={{ minio_podman_secret }}"
+    {{ minio_podman_env_args }}
     -v '{{ minio_podman_data_dir }}:/data:Z'
     "{{ minio_podman_image_name }}" server /data
 

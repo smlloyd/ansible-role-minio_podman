@@ -1,6 +1,11 @@
 ---
 # tasks file for smlloyd.minio_podman
 
+- name: Compile container environment variables
+  set_fact:
+    minio_podman_env_args: '-e "{{ item }}" {{ minio_podman_env_args | default("") }}'
+  with_items: "{{ minio_podman_env }}"
+
 - name: Ensure required packages are installed
   package:
     name: "{{ minio_podman_packages }}"

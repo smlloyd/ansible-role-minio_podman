@@ -14,3 +14,4 @@ minio_podman_unit_file: "{{ minio_podman_systemd_directory }}/{{ minio_podman_se
 minio_podman_data_dir: /srv/minio
 minio_podman_key: CHANGEME
 minio_podman_secret: CHANGEMECHANGEME
+minio_podman_env: []
