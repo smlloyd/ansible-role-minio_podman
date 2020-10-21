@@ -43,8 +43,6 @@ script:
   - ansible-lint .
   # Basic role syntax check
   - ansible-playbook tests/test.yml -i tests/inventory --syntax-check
-  # Run in check mode
-  - ansible-playbook tests/test.yml -i tests/inventory --diff --check
   # Run first time
   - ansible-playbook tests/test.yml -i tests/inventory --diff
   # Run second time
