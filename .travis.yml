@@ -1,6 +1,8 @@
 ---
 dist: bionic
 
+language: python
+
 env:
   global:
     - ROLE_NAME: minio_podman
