@@ -18,11 +18,11 @@ before_install:
 - sudo sh -c '/bin/echo -e "[registries.search]\nregistries = [\"docker.io\"]" > /etc/containers/registries.conf'
 - podman --version
 
-# Install ansible
-addons:
-  apt:
-    packages:
-    - python-pip
+  ## Install ansible
+  #addons:
+  #  apt:
+  #    packages:
+  #    - python-pip
 
 install:
   # Install ansible
