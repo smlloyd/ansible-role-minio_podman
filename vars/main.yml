@@ -1,2 +1,3 @@
 ---
 # vars file for smlloyd.minio_podman
+minio_podman_env_args: ""

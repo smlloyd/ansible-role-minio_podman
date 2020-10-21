@@ -14,6 +14,8 @@ To use this role three variables should be set for the storage location and key/
     minio_podman_data_dir: /srv/minio
     minio_podman_key: CHANGEME
     minio_podman_secret: CHANGEMECHANGEME
+    minio_podman_env:
+      - MINIO_REGION_NAME=us-east-1
 
 Additional variables with their defaults can be found in `defaults/main.yml`.
 
