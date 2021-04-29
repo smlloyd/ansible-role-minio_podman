@@ -3,7 +3,7 @@
 
 minio_podman_packages:
   - podman
-minio_podman_image_name: minio/minio
+minio_podman_image_name: docker.io/minio/minio:latest
 minio_podman_image_tag: latest
 minio_podman_force_pull: False
 minio_podman_external_port: 9000

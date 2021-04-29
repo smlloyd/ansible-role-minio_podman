@@ -1,0 +1,2 @@
+.cache
+molecule/default/group_vars/rhel.yml

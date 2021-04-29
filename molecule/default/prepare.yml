@@ -1,0 +1,10 @@
+---
+- name: Prepare
+  hosts: rhel
+  become: True
+  tasks:
+    - name: Subscribe vagrant box to redhat
+      community.general.redhat_subscription:
+        state: present
+        activationkey: "{{ rhel_activationkey }}"
+        org_id: "{{ rhel_org_id }}"

@@ -1,0 +1,11 @@
+---
+- name: Cleanup
+  hosts: rhel
+  become: True
+  gather_facts: False
+
+  tasks:
+    - name: Unsubscribe vagrant box from redhat
+      community.general.redhat_subscription:
+        state: absent
+      ignore_unreachable: True

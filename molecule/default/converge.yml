@@ -3,6 +3,16 @@
   hosts: all
   become: True
   tasks:
+    - name: Upgrade all packages
+      dnf:
+        name: "*"
+        state: latest
+      register: package_upgrades
+
+    - name: Reboot VM if packages were upgraded
+      reboot:
+      when: package_upgrades is changed
+
     - name: "Include smlloyd.minio_podman"
       include_role:
         name: "smlloyd.minio_podman"

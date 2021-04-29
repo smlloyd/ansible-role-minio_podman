@@ -6,10 +6,28 @@ driver:
   provider:
     name: libvirt
 platforms:
+  - name: minio-fedora34
+    box: fedora/34-cloud-base
+    memory: 1024
+  - name: minio-fedora33
+    box: fedora/33-cloud-base
+    memory: 1024
   - name: minio-centos8
     box: centos/8
+    memory: 1024
+  - name: minio-rhel8
+    box: generic/rhel8
+    memory: 1024
+    groups:
+      - rhel
 provisioner:
   name: ansible
+  inventory:
+    links:
+      group_vars: group_vars
+  playbooks:
+    prepare: prepare.yml
+    cleanup: cleanup.yml
 verifier:
   name: ansible
 lint: ansible-lint .
