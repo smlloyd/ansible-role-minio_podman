@@ -21,7 +21,8 @@
     - delete old container
 
 
-- meta: flush_handlers
+- name: Flush handlers
+  meta: flush_handlers
 
 
 - name: Ensure minio data directory exists
@@ -41,7 +42,8 @@
     - create container
     - create systemd file
 
-- meta: flush_handlers
+- name: Flush handlers
+  meta: flush_handlers
 
 - name: enable minio service
   systemd:
