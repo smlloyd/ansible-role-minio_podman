@@ -10,12 +10,14 @@
 
 - name: create container
   command: >-
-    podman run -d -p '{{ minio_podman_external_port }}':9000 --name '{{ minio_podman_container_name }}'
-    -e "MINIO_ACCESS_KEY={{ minio_podman_key }}"
-    -e "MINIO_SECRET_KEY={{ minio_podman_secret }}"
+    podman run -d --name '{{ minio_podman_container_name }}'
+    -p '{{ minio_podman_external_port }}':9000
+    -p '{{ minio_podman_console_port }}':9001
+    -e "MINIO_ROOT_USER={{ minio_podman_root_user }}"
+    -e "MINIO_ROOT_PASSWORD={{ minio_podman_root_password }}"
     {{ minio_podman_env_args }}
     -v '{{ minio_podman_data_dir }}:/data:Z'
-    "{{ minio_podman_image_name }}" server /data
+    "{{ minio_podman_image_name }}" server /data --console-address ":9001"
 
 
 - name: create systemd file

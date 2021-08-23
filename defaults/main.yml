@@ -7,6 +7,7 @@ minio_podman_image_name: docker.io/minio/minio:latest
 minio_podman_image_tag: latest
 minio_podman_force_pull: False
 minio_podman_external_port: 9000
+minio_podman_console_port: 9001
 minio_podman_container_name: minio
 minio_podman_systemd_directory: /etc/systemd/system
 minio_podman_service: "container-{{ minio_podman_container_name }}"

@@ -12,8 +12,8 @@ Role Variables
 To use this role three variables should be set for the storage location and key/secret:
 
     minio_podman_data_dir: /srv/minio
-    minio_podman_key: CHANGEME
-    minio_podman_secret: CHANGEMECHANGEME
+    minio_podman_root_user: CHANGEME
+    minio_podman_root_password: CHANGEMECHANGEME
     minio_podman_env:
       - MINIO_REGION_NAME=us-east-1
 
@@ -33,6 +33,8 @@ Including an example of how to use your role (for instance, with variables passe
     - hosts: servers
       roles:
          - smlloyd.minio_podman
+           minio_podman_root_user: AKIAIOSFODNN7EXAMPLE
+           minio_podman_root_password: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 
 
 License
