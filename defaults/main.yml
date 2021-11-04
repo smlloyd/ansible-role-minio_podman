@@ -8,11 +8,10 @@ minio_podman_image_tag: latest
 minio_podman_force_pull: False
 minio_podman_external_port: 9000
 minio_podman_console_port: 9001
-minio_podman_container_name: minio
+minio_podman_pod_name: minio
+minio_podman_container_name: minio-app
 minio_podman_systemd_directory: /etc/systemd/system
-minio_podman_service: "container-{{ minio_podman_container_name }}"
-minio_podman_unit_file: "{{ minio_podman_systemd_directory }}/{{ minio_podman_service }}.service"
 minio_podman_data_dir: /srv/minio
-minio_podman_key: CHANGEME
-minio_podman_secret: CHANGEMECHANGEME
+minio_podman_root_user: CHANGEME
+minio_podman_root_password: CHANGEMECHANGEME
 minio_podman_env: []

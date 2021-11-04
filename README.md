@@ -5,6 +5,13 @@ minio_podman
 
 Ansible role to install and run minio with podman on EL 8 hosts.
 
+---
+**NOTE**
+
+This role has been updated to create a pod with a minio container in it instead of just a single container. This may result in errors when using this role with old installations. To fix this, please remove the existing container and systemd unit files manually and rerun ansible.
+
+---
+
 
 Role Variables
 --------------
