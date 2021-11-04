@@ -1,6 +1,4 @@
 ---
-# tasks file for smlloyd.minio_podman
-
 - name: Compile container environment variables
   set_fact:
     minio_podman_env_args: '-e "{{ item }}" {{ minio_podman_env_args | default("") }}'
@@ -11,19 +9,19 @@
     name: "{{ minio_podman_packages }}"
     state: present
 
-
 - name: Pull minio image
   podman_image:
     name: '{{ minio_podman_image_name }}'
     tag: '{{ minio_podman_image_tag }}'
     force: '{{ minio_podman_force_pull }}'
-  notify:
-    - delete old container
+  register: image_pulled
 
-
-- name: Flush handlers
-  meta: flush_handlers
-
+- name: delete old container
+  shell: podman container exists '{{ minio_podman_container_name }}' && podman rm -f '{{ minio_podman_container_name }}'
+  register: delete_container
+  changed_when: delete_container.rc == 0
+  failed_when: delete_container.rc >= 2
+  when: image_pulled.changed
 
 - name: Ensure minio data directory exists
   file:
@@ -31,19 +29,56 @@
     mode: '755'
     state: directory
 
-
-- name: Ensure minio container exists
+- name: Register exisiting minio container
   command: 'podman container exists {{ minio_podman_container_name }}'
   register: container_exists
-  check_mode: no
   changed_when: container_exists.rc == 1
   failed_when: container_exists.rc >= 2
-  notify:
-    - create container
-    - create systemd file
+  check_mode: no
 
-- name: Flush handlers
-  meta: flush_handlers
+- name: Register existing minio pod
+  command: 'podman pod exists {{ minio_podman_pod_name }}'
+  register: pod_exists
+  changed_when: pod_exists.rc == 1
+  failed_when: pod_exists.rc >= 2
+  check_mode: no
+
+- name: Create minio pod
+  command: >-
+    podman pod create --name '{{ minio_podman_pod_name }}'
+    -p '{{ minio_podman_external_port }}':9000
+    -p '{{ minio_podman_console_port }}':9001
+  when:
+    - pod_exists.rc == 1
+    - container_exists.rc == 1
+
+- name: Create minio container
+  command: >-
+    podman run -d --pod '{{ minio_podman_pod_name }}' --name '{{ minio_podman_container_name }}'
+    -e "MINIO_ROOT_USER={{ minio_podman_root_user }}"
+    -e "MINIO_ROOT_PASSWORD={{ minio_podman_root_password }}"
+    {{ minio_podman_env_args }}
+    -v '{{ minio_podman_data_dir }}:/data:Z'
+    "{{ minio_podman_image_name }}" server /data --console-address ":9001"
+  register: create_container
+  when:
+    - container_exists.rc == 1
+
+- name: Define service name
+  set_fact:
+    minio_podman_service: "pod-{{ minio_podman_pod_name }}"
+
+- name: Check if unit file exists
+  stat:
+    path: "{{ minio_podman_systemd_directory }}/{{ minio_podman_service }}.service"
+  register: stat_unit_file
+
+- name: Create systemd file
+  command: >-
+    podman generate systemd --name "{{ minio_podman_pod_name }}" -t 5 --restart-policy always -f
+  args:
+    chdir: '{{ minio_podman_systemd_directory }}'
+  when: create_container.changed or stat_unit_file.stat.exists is false
 
 - name: enable minio service
   systemd:

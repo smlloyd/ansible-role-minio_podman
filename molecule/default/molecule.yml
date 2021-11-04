@@ -6,11 +6,11 @@ driver:
   provider:
     name: libvirt
 platforms:
+  - name: minio-fedora35
+    box: fedora/35-cloud-base
+    memory: 1024
   - name: minio-fedora34
     box: fedora/34-cloud-base
-    memory: 1024
-  - name: minio-fedora33
-    box: fedora/33-cloud-base
     memory: 1024
   - name: minio-centos8
     box: centos/8
