@@ -1,5 +1,3 @@
-[![Build Status](https://travis-ci.com/smlloyd/ansible-role-minio_podman.svg?branch=master)](https://travis-ci.com/smlloyd/ansible-role-minio_podman)
-
 minio_podman
 ============
 
